@@ -22,8 +22,20 @@ cv2.createTrackbar('filters', 'app', 0, 1, dummy)
 # greyscale is a switch on/of
 cv2.createTrackbar('greyscale', 'app', 0, 1, dummy)
 
-# TODO: remove this line - waits until a key is pressed
-cv2.waitKey(0)
+# create UI loop
+while True:
+    # TODO: apply filters
+    # TODO: apply brightness and contrast
+    # TODO: apply greyscale
+    
+    # wait for a key to be pressed for 200 millisecs
+    key = cv2.waitKey(200)
+    # key is the ordinal value of the key pressed
+    if key == ord('q'):
+        break
+    elif key == ('s'):
+        # TODO: save the image
+        pass
 
 # destroy all windows
 cv2.destroyAllWindows()
