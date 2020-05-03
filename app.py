@@ -5,7 +5,7 @@ Created on Sun May  3 17:09:53 2020
 @author: Mark Boomer
 """
 import cv2 as cv2
-import numpy as pd
+import numpy as np
 
 # dummy function that does nothing at present
 def dummy(value):
@@ -13,6 +13,14 @@ def dummy(value):
 
 # create UI window and track bars
 cv2.namedWindow('app')
+
+color_original = cv2.imread('test.jpg')
+gray_original = cv2.cvtColor(color_original, cv2.COLOR_BGR2GRAY)
+
+# colour image to be modified
+color_modified = color_original
+# grayscale image to be modified
+gray_modified = gray_original
 
 # args name, window, initial value, max value, onChange event handler
 cv2.createTrackbar('contrast', 'app', 1, 100, dummy)
@@ -24,6 +32,16 @@ cv2.createTrackbar('greyscale', 'app', 0, 1, dummy)
 
 # create UI loop
 while True:
+    # TODO: read all trackbar values
+    contrast   = cv2.getTrackbarPos('contrast', 'app')
+    brightness = cv2.getTrackbarPos('brightness', 'app')
+    filters    = cv2.getTrackbarPos('filters', 'app')
+    grayscale  = cv2.getTrackbarPos('greyscale', 'app')
+
+    # apply the brightness and contrast
+    color_modified = cv2.addWeighted(color_modified, contrast, np.zeros_like(color_original), 0, brightness - 50)
+    gray_modified  = cv2.addWeighted(gray_modified, contrast, np.zeros_like(gray_original), 0, brightness - 50)
+
     # TODO: apply filters
     # TODO: apply brightness and contrast
     # TODO: apply greyscale
@@ -36,6 +54,13 @@ while True:
     elif key == ('s'):
         # TODO: save the image
         pass
+
+    # display the image in the app window
+    if grayscale == 0:
+        # TODO: replace with final modified image
+        cv2.imshow('app', color_modified)
+    else:
+        cv2.imshow('app', gray_modified)
 
 # destroy all windows
 cv2.destroyAllWindows()
